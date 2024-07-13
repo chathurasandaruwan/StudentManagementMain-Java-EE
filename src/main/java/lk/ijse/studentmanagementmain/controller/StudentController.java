@@ -71,6 +71,7 @@ public class StudentController extends HttpServlet {
 
     {
         e.printStackTrace();
+        resp.getWriter().write("unable to save student");
     }
     }
 
@@ -84,7 +85,7 @@ public class StudentController extends HttpServlet {
         JsonObject jsonObject = reader.readObject();
         String stuId = jsonObject.getString("id");
         System.out.println(stuId);
-        StudentDTO studentDTO = new StudentDTO();
+        StudentDTO studentDTO ;
         try {
             studentDTO = studentData.getStudent(stuId,connection);
             System.out.println(studentDTO);
@@ -109,9 +110,10 @@ public class StudentController extends HttpServlet {
         String stuId = req.getParameter("id");
 
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(DELETE);
-            preparedStatement.setString(1,stuId);
-            if (preparedStatement.executeUpdate()>0){
+            /*PreparedStatement preparedStatement = connection.prepareStatement(DELETE);
+            preparedStatement.setString(1,stuId);*/
+            boolean isDelete = studentData.deleteStudent(stuId,connection);
+            if (isDelete){
                 resp.getWriter().write(stuId+" : Delete successfully!!!");
             }else {
                 resp.getWriter().write("Some thing wrong!! Please Try again!!!");

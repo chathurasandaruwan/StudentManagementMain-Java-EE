@@ -9,7 +9,7 @@ import java.util.List;
 public interface StudentData {
     StudentDTO getStudent(String id,Connection connection) throws SQLException;
     String updateStudent(StudentDTO studentDTO, Connection connection);
-    boolean deleteStudent(String id,Connection connection);
+    boolean deleteStudent(String id,Connection connection) throws SQLException;
 
     boolean saveStudent(StudentDTO studentDTO, Connection connection) throws SQLException;
 }

@@ -50,7 +50,9 @@ public class StudentDataProcess implements StudentData {
     }
 
     @Override
-    public boolean deleteStudent(String id, Connection connection) {
-        return false;
+    public boolean deleteStudent(String id, Connection connection) throws SQLException {
+        PreparedStatement preparedStatement = connection.prepareStatement(DELETE);
+        preparedStatement.setString(1,id);
+        return preparedStatement.executeUpdate()>0;
     }
 }
