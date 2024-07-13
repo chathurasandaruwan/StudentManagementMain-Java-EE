@@ -45,8 +45,14 @@ public class StudentDataProcess implements StudentData {
     }
 
     @Override
-    public String updateStudent(StudentDTO studentDTO, Connection connection) {
-        return null;
+    public boolean updateStudent(StudentDTO studentDTO, Connection connection) throws SQLException {
+        PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_STUDENT);
+        preparedStatement.setString(1,studentDTO.getName());
+        preparedStatement.setString(2,studentDTO.getEmail());
+        preparedStatement.setString(3,studentDTO.getCity());
+        preparedStatement.setString(4,studentDTO.getLevel());
+        preparedStatement.setString(5,studentDTO.getId());
+        return preparedStatement.executeUpdate() != 0;
     }
 
     @Override

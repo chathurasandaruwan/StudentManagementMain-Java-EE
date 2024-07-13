@@ -110,8 +110,6 @@ public class StudentController extends HttpServlet {
         String stuId = req.getParameter("id");
 
         try {
-            /*PreparedStatement preparedStatement = connection.prepareStatement(DELETE);
-            preparedStatement.setString(1,stuId);*/
             boolean isDelete = studentData.deleteStudent(stuId,connection);
             if (isDelete){
                 resp.getWriter().write(stuId+" : Delete successfully!!!");
@@ -136,16 +134,12 @@ public class StudentController extends HttpServlet {
         String stuEmail = jsonObject.getString("email");
         String stuCity = jsonObject.getString("city");
         String stuLevel = jsonObject.getString("level");
+        StudentDTO studentDTO = new StudentDTO(stuId,stuName,stuEmail,stuCity,stuLevel);
 
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_STUDENT);
-            preparedStatement.setString(1,stuName);
-            preparedStatement.setString(2,stuEmail);
-            preparedStatement.setString(3,stuCity);
-            preparedStatement.setString(4,stuLevel);
-            preparedStatement.setString(5,stuId);
+            boolean isUpdate = studentData.updateStudent(studentDTO,connection);
 
-            if (preparedStatement.executeUpdate() != 0) {
+            if (isUpdate) {
                 resp.getWriter().write("Update student Successfully !!!");
             } else {
                 resp.getWriter().write("unable to Update !! Please try again !!!");
