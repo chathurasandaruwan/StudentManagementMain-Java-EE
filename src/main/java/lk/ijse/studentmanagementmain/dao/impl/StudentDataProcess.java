@@ -15,18 +15,17 @@ public class StudentDataProcess implements StudentData {
     static String DELETE = "DELETE FROM students WHERE id = ?";
     static String UPDATE_STUDENT = "UPDATE students SET name =? , city = ?, email =?,level=? WHERE id = ?";
     @Override
-    public boolean saveStudent(List<StudentDTO> studentDTO, Connection connection) throws SQLException {
+    public boolean saveStudent(StudentDTO dto, Connection connection) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement(SAVE_STUDENT);
-        for (StudentDTO stu : studentDTO) {
-            preparedStatement.setString(1, stu.getId());
-            preparedStatement.setString(2, stu.getName());
-            preparedStatement.setString(3, stu.getEmail());
-            preparedStatement.setString(4, stu.getCity());
-            preparedStatement.setString(5, stu.getLevel());
+
+            preparedStatement.setString(1, dto.getId());
+            preparedStatement.setString(2, dto.getName());
+            preparedStatement.setString(3, dto.getEmail());
+            preparedStatement.setString(4, dto.getCity());
+            preparedStatement.setString(5, dto.getLevel());
 
            return preparedStatement.executeUpdate() != 0;
-        }
-        return true;
+
     }
 
     @Override

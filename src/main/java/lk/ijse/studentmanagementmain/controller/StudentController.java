@@ -58,32 +58,14 @@ public class StudentController extends HttpServlet {
         try {
         /*String id = UUID.randomUUID().toString();*/
         Jsonb jsonb = JsonbBuilder.create();
-        List<StudentDTO> studentDTOs = jsonb.fromJson(req.getReader(), new ArrayList<StudentDTO>() {
-        }.getClass().getGenericSuperclass());
-
-        studentDTOs.forEach(System.out::println);
+        StudentDTO studentDTO = jsonb.fromJson(req.getReader(), StudentDTO.class);
         //persist student data
-            boolean isSaved = studentData.saveStudent(studentDTOs,connection);
+            boolean isSaved = studentData.saveStudent(studentDTO,connection);
             if (isSaved) {
                 resp.getWriter().write("Save student");
             } else {
                 resp.getWriter().write("unable to save student");
             }
-        /*PreparedStatement preparedStatement = connection.prepareStatement(SAVE_STUDENT);
-        for (StudentDTO stu : studentDTO) {
-            preparedStatement.setString(1, stu.getId());
-            preparedStatement.setString(2, stu.getName());
-            preparedStatement.setString(3, stu.getEmail());
-            preparedStatement.setString(4, stu.getCity());
-            preparedStatement.setString(5, stu.getLevel());
-
-            if (preparedStatement.executeUpdate() != 0) {
-                resp.getWriter().write("Save student");
-            } else {
-                resp.getWriter().write("unable to save student");
-            }
-        }*/
-
     }catch(
     Exception e)
 
