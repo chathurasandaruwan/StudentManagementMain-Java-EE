@@ -25,10 +25,6 @@ import java.util.UUID;
 @WebServlet(urlPatterns = "/student")
 public class StudentController extends HttpServlet {
     Connection connection;
-    static String SAVE_STUDENT = "INSERT INTO students(id,name,city,email,level)VALUE(?,?,?,?,?)";
-    static String GET_STUDENT = "SELECT * FROM students WHERE id = ?";
-    static String DELETE = "DELETE FROM students WHERE id = ?";
-    static String UPDATE_STUDENT = "UPDATE students SET name =? , city = ?, email =?,level=? WHERE id = ?";
     StudentData studentData = new StudentDataProcess();
     @Override
     public void init() throws ServletException {
@@ -63,8 +59,10 @@ public class StudentController extends HttpServlet {
             boolean isSaved = studentData.saveStudent(studentDTO,connection);
             if (isSaved) {
                 resp.getWriter().write("Save student");
+                resp.setStatus(HttpServletResponse.SC_CREATED);
             } else {
                 resp.getWriter().write("unable to save student");
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
             }
     }catch(
     Exception e)
