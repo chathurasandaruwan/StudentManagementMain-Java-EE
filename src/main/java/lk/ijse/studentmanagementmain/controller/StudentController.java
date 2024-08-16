@@ -14,6 +14,9 @@ import lk.ijse.studentmanagementmain.dao.StudentData;
 import lk.ijse.studentmanagementmain.dao.impl.StudentDataProcess;
 import lk.ijse.studentmanagementmain.dto.StudentDTO;
 
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.Writer;
 import java.nio.CharBuffer;
@@ -28,7 +31,7 @@ public class StudentController extends HttpServlet {
     StudentData studentData = new StudentDataProcess();
     @Override
     public void init() throws ServletException {
-        try {
+        /*try {
 
             var driverclass = getServletContext().getInitParameter("driver-class");
             var dbURL = getServletContext().getInitParameter("dbURL");
@@ -40,6 +43,13 @@ public class StudentController extends HttpServlet {
 
 
         } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }*/
+        try {
+            var ctx = new InitialContext();
+            DataSource pool = (DataSource) ctx.lookup("java:comp/env/jdbc/stuRegistration");
+            this.connection =  pool.getConnection();
+        }catch (NamingException | SQLException e){
             e.printStackTrace();
         }
     }
