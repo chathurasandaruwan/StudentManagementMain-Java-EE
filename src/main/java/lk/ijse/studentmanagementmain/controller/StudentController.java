@@ -13,6 +13,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import lk.ijse.studentmanagementmain.dao.StudentData;
 import lk.ijse.studentmanagementmain.dao.impl.StudentDataProcess;
 import lk.ijse.studentmanagementmain.dto.StudentDTO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -25,12 +27,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@WebServlet(urlPatterns = "/student")
+@WebServlet(urlPatterns = "/student" , loadOnStartup = 2)
 public class StudentController extends HttpServlet {
+
+    static Logger logger = LoggerFactory.getLogger(StudentController.class);
     Connection connection;
     StudentData studentData = new StudentDataProcess();
     @Override
     public void init() throws ServletException {
+        logger.info("Init called");
         /*try {
 
             var driverclass = getServletContext().getInitParameter("driver-class");
@@ -62,9 +67,11 @@ public class StudentController extends HttpServlet {
             resp.sendError(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE);
         }
         try {
-        /*String id = UUID.randomUUID().toString();*/
+        String id = UUID.randomUUID().toString();
         Jsonb jsonb = JsonbBuilder.create();
         StudentDTO studentDTO = jsonb.fromJson(req.getReader(), StudentDTO.class);
+        studentDTO.setId(id);
+            System.out.println(studentDTO);
         //persist student data
             boolean isSaved = studentData.saveStudent(studentDTO,connection);
             if (isSaved) {

@@ -5,7 +5,7 @@
          version="5.0">
     <context-param>
         <param-name>origin</param-name>
-        <param-value>http://127.0.0.1:5500</param-value>
+        <param-value>http://localhost:63342</param-value>
     </context-param>
     <resource-ref>
         <description>DB Connection</description>
